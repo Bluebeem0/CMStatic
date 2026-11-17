@@ -1,0 +1,42 @@
+{
+  // Shared compiler options. Each package has its own tsconfig.json that
+  // "extends" this file, so the rules stay identical everywhere.
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Language level supported by Node 22, our minimum version.
+    "target": "ES2023",
+    "lib": ["ES2023"],
+
+    // Node's native ESM rules: relative imports need their ".js" extension
+    // and "exports" fields of packages are respected.
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    // TypeScript 6 no longer loads every @types package by default.
+    "types": ["node"],
+
+    // Strictness. noUncheckedIndexedAccess makes array[i] and record[key]
+    // possibly undefined, which forces us to handle missing values.
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Write "import type" for type-only imports, so the emitted JavaScript
+    // is exactly the source minus the types.
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+
+    // Output: declaration files so other packages get the types.
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Do not re-check the .d.ts files of dependencies (faster, and their
+    // errors are not ours to fix).
+    "skipLibCheck": true
+  }
+}
