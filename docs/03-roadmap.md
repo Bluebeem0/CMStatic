@@ -25,7 +25,7 @@ Sept phases, sans dates : on passe à la suivante quand le **critère de sortie*
 - [ ] **0.3 CI** — GitHub Actions sur `push` et `pull_request` : install avec cache pnpm, `typecheck`, `lint`, `test`, `build`, `pnpm audit --audit-level=high` ; Node 22 et 24.
   - *Acceptation* : badge CI vert dans le README.
 - [ ] **0.4 Fichiers communautaires** — `LICENSE` (MIT, © 2026 Fodié Diaouné), `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` (Contributor Covenant), modèles d'issue (bug, fonctionnalité) et de pull request.
-- [ ] **0.5 Docs et ADR** — dossier `docs/` en place, ADR 0001 à 0009 présents, `docs/ideas.md` vide.
+- [x] **0.5 Docs et ADR** — dossier `docs/` en place, ADR 0001 à 0009 présents, `docs/ideas.md` vide.
 - [ ] **0.6 Versions** — Changesets initialisé ; Dependabot configuré (npm + GitHub Actions).
 
 **Sortie** : tag Git annoté `v0.0.1` sur `main` (version du dépôt, distincte des versions de paquets gérées par Changesets ; aucun paquet publié sur npm).
