@@ -96,7 +96,7 @@ En tant que rédacteur, je veux créer un nouveau site à partir d'un thème pou
 | Performance du site produit (thème starter) | Lighthouse ≥ 95 en performance et en accessibilité |
 | Accessibilité de l'interface | Navigable entièrement au clavier, contrastes WCAG AA |
 | Build du site d'exemple | Moins de 10 s sur un portable récent |
-| Systèmes | macOS, Windows, Linux, Node ≥ 22 |
+| Systèmes | macOS, Windows, Linux, Node ≥ 22.22 |
 | Robustesse | Aucune perte de données en cas d'arrêt brutal (écritures atomiques) |
 | Sécurité | Règles de `02-architecture.md` respectées et testées |
 | Couverture de tests | `core` ≥ 80 % de lignes |

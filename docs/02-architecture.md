@@ -35,7 +35,7 @@ Toute la logique vit dans un cœur partagé ; l'admin local, l'application de bu
 | --- | --- | --- | --- | --- |
 | `packages/core` | `@cmstatic/core` | Schémas, config du site, lecture/écriture des entrées, index, Git | — | 1 |
 | `packages/builder` | `@cmstatic/builder` | Lance Astro pour construire ou prévisualiser un site avec son thème | core | 1 |
-| `packages/server` | `@cmstatic/server` | API HTTP locale (Hono) qui expose le cœur à l'interface | core, builder, deploy | 2 |
+| `packages/server` | `@cmstatic/server` | API HTTP locale (Hono) qui expose le cœur à l'interface | core, builder ; deploy à partir de la phase 3 | 2 |
 | `packages/admin-ui` | `@cmstatic/admin-ui` | Interface React (Vite, shadcn/ui), servie par `server` | — (parle à l'API) | 2 |
 | `packages/plugin-api` | `@cmstatic/plugin-api` | Types et fonctions `definePlugin`, registre des points d'accroche | core | 3 |
 | `packages/deploy` | `@cmstatic/deploy` | Cibles de déploiement SFTP, S3, Pages | core | 3 |
@@ -107,11 +107,14 @@ Le corps de l'entrée, en **Markdown**.
 
 - Le **slug** est le nom du fichier sans extension : `[a-z0-9]+(-[a-z0-9]+)*`, unique dans sa collection.
 - Le frontmatter est validé par le schéma Zod de la collection ; le corps est du Markdown CommonMark + GFM.
+- Les dates sont stockées comme des chaînes `AAAA-MM-JJ`, jamais comme des objets `Date` : pas de décalage de fuseau horaire, et un fichier relu puis réécrit reste identique.
 - Les chemins de médias sont relatifs à la racine du site.
 
 ### Thème et déclaration des types de contenus
 
 Un thème est un projet Astro empaqueté qui exporte un manifeste `theme.config.ts`. Le cœur lit ce manifeste ; l'interface en génère les formulaires ; le builder s'en sert pour valider et charger les contenus.
+
+Le thème publie ce manifeste **compilé en JavaScript** (`theme.config.js`, produit par `tsc` dans son script `build`) : Node refuse de retirer les types d'un fichier TypeScript situé dans `node_modules`, et ce choix évite d'ajouter un chargeur TypeScript au cœur.
 
 ```ts
 // themes/starter/theme.config.ts — exemple indicatif, l'API exacte se fixe en phase 1
@@ -148,13 +151,15 @@ Les helpers `fields.*` produisent **à la fois** un schéma Zod (validation) et 
 | `fields.textarea` | `z.string()` | Zone de texte |
 | `fields.number` | `z.number()` | Champ numérique |
 | `fields.boolean` | `z.boolean()` | Interrupteur |
-| `fields.date` | `z.coerce.date()` | Sélecteur de date |
+| `fields.date` | `z.iso.date()` (chaîne `AAAA-MM-JJ`) | Sélecteur de date |
 | `fields.select` | `z.enum([...])` | Liste déroulante |
 | `fields.tags` | `z.array(z.string())` | Saisie d'étiquettes |
 | `fields.image` | `z.string()` (chemin dans `media/`) | Sélecteur / téléversement d'image |
-| `fields.url` | `z.string().url()` | Champ URL |
+| `fields.url` | `z.url()` | Champ URL |
 | `fields.reference` | `z.string()` (slug d'une autre collection) | Liste des entrées de la collection cible |
 | `fields.list` | `z.array(objet)` | Liste répétable de sous-champs |
+
+Ce tableau suit l'API de **Zod 4**, la version utilisée par Astro 7. Pour que les schémas créés par `core` soient reconnus par Astro, il ne doit exister qu'**une seule copie de Zod** : `core` déclare `zod` en `peerDependency`, la version est fixée une seule fois dans le catalogue pnpm, et un test vérifie que `zod` et `astro/zod` désignent le même module.
 
 ## Flux principaux
 
@@ -186,7 +191,7 @@ Les helpers `fields.*` produisent **à la fois** un schéma Zod (validation) et 
 - `builder` pilote Astro via son **API JavaScript** (`build`, `dev`) avec la racine sur le thème, la sortie vers `mon-site/dist/` et le chemin du site passé en configuration.
 - Les médias de `mon-site/media/` sont exposés au thème et optimisés par le pipeline d'images d'Astro quand c'est possible.
 
-> ⚠️ Vérifier ces API dans la documentation Astro à jour avant d'implémenter (Content Layer, loaders, API JavaScript). Si l'approche ne tient pas, proposer un ADR alternatif plutôt que de contourner.
+> ⚠️ Vérifié en novembre 2026 (Astro 7.4) : l'API JavaScript existe mais est **expérimentale**, et le chargeur `glob()` lit un dossier absolu n'importe où sur le disque. Plusieurs points restent à prouver (thème dans `node_modules`, Tailwind, images, rechargement en dev) : la manière exacte de piloter Astro est tranchée par le prototype de la tâche 1.0 et l'**ADR 0010**.
 
 ## API HTTP du serveur local (phase 2)
 
@@ -228,11 +233,11 @@ Points d'accroche prévus : `config:loaded`, `content:beforeSave`, `content:afte
 
 | Sujet | Règle |
 | --- | --- |
-| Serveur local | Écoute sur `127.0.0.1` seulement ; jeton aléatoire de 32 octets généré au lancement, transmis à l'interface par l'URL d'ouverture puis gardé en mémoire ; en-têtes CORS fermés |
+| Serveur local | Écoute sur `127.0.0.1` seulement ; jeton aléatoire de 32 octets généré au lancement, transmis à l'interface dans le **fragment** de l'URL d'ouverture (`#token=…`, jamais envoyé au serveur ni journalisé) puis gardé en mémoire ; en-têtes `Host` et `Origin` vérifiés (protection contre le *DNS rebinding*) ; en-têtes CORS fermés |
 | Chemins | Slugs validés par regex ; chemins normalisés et vérifiés comme descendants du dossier du site ; liens symboliques refusés |
 | Écritures | Atomiques (temporaire + renommage) pour ne jamais laisser un fichier à moitié écrit |
 | Médias | Liste blanche d'extensions et de types MIME, taille maximale configurable, noms de fichiers assainis |
-| Markdown | HTML assaini à la génération (pas de script injecté par un contenu) |
+| Markdown | HTML assaini à la génération (pas de script injecté par un contenu) : `builder` impose `rehype-sanitize` dans la configuration Markdown d'Astro, quel que soit le thème |
 | Secrets | Hors du dépôt du site : trousseau du système (phase 4) ; avant cela, fichier `~/.config/cmstatic/credentials.json` en permissions `600` ou variables d'environnement ; jamais journalisés |
 | Dépendances | Dependabot, `pnpm audit` en CI, versions figées par le lockfile |
 | Plugins | Permissions déclarées ; aucun plugin tiers chargé sans confirmation explicite |
@@ -241,19 +246,19 @@ Points d'accroche prévus : `config:loaded`, `content:beforeSave`, `content:afte
 
 | Domaine | Choix | Remarque |
 | --- | --- | --- |
-| Langage | TypeScript strict, ESM | Node ≥ 22 LTS |
+| Langage | TypeScript 6 strict, ESM (TypeScript 7 n'a pas encore d'API, dont les outils Astro ont besoin) | Node ≥ 22.22 (minimum exigé par Astro 7.4) ; Node 24 LTS en développement ; CI sur 22 et 24 |
 | Monorepo | pnpm workspaces | ADR 0003 |
 | Lint / format | Biome | Un seul outil, ADR 0009 |
 | Tests | Vitest ; Playwright pour l'interface (phase 2) | ADR 0009 |
 | Versions | Changesets + Conventional Commits | |
 | Validation | Zod | ADR 0005 |
 | Rendu des sites | Astro + Tailwind CSS + shadcn/ui (îlots React) | ADR 0002 |
-| Frontmatter / YAML | `gray-matter` + `yaml` | À confirmer en phase 1 |
+| Frontmatter / YAML | `yaml` seule + petite fonction maison qui sépare frontmatter et corps | `gray-matter` écarté : plus maintenu, et il embarque un second analyseur YAML (`js-yaml`). `yaml` sait conserver commentaires et mise en forme |
 | CLI | `commander` | |
 | Serveur local | Hono sur Node | Phase 2 |
 | Interface | React + Vite + Tailwind + shadcn/ui, TanStack Query, react-hook-form | Phase 2 |
 | Éditeur de texte riche | À décider par ADR en phase 2 (critère : aller-retour Markdown fiable) | |
-| Git | isomorphic-git | ADR 0008 (proposé) |
+| Git | isomorphic-git | ADR 0008 (proposé, à accepter dès la tâche 1.7 car `init` crée le dépôt) |
 | Déploiement | `ssh2-sftp-client`, `@aws-sdk/client-s3` (compatible S3 : Garage, MinIO…) | Phase 3 |
 | Bureau | Electron | ADR 0007 (proposé) |
 | i18n | Fichiers de traduction JSON, fr + en dès le départ | |

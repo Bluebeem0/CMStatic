@@ -13,3 +13,4 @@ Un ADR par choix structurant. Un ADR accepté ne se modifie pas : on en écrit u
 | [0007](0007-electron-coque-bureau.md) | Electron pour la coque de bureau | Proposé |
 | [0008](0008-isomorphic-git.md) | isomorphic-git pour les opérations Git | Proposé |
 | [0009](0009-biome-vitest.md) | Biome et Vitest pour l'outillage | Accepté |
+| [0010](0010-integration-astro.md) | Intégration avec Astro : comment `builder` pilote un thème | Proposé |
