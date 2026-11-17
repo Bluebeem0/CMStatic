@@ -34,7 +34,7 @@
 ## Code
 
 - TypeScript `strict`, ESM, `"type": "module"` dans chaque paquet.
-- Biome pour le lint et le format ; aucune règle désactivée sans commentaire.
+- Biome pour le lint et le format ; aucune règle désactivée sans commentaire. Le Markdown n'est pas formaté par Biome (les tableaux alignés rendraient les diffs de la doc illisibles).
 - Noms : fichiers `kebab-case.ts`, fonctions et variables `camelCase`, types et composants `PascalCase`, constantes `SCREAMING_SNAKE_CASE` seulement pour les vraies constantes.
 - Exports nommés ; un `index.ts` par paquet qui définit l'API publique — rien d'autre n'est importable depuis l'extérieur.
 - Données externes validées avec Zod ; types dérivés des schémas avec `z.infer`.
