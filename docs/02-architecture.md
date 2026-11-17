@@ -191,7 +191,7 @@ Ce tableau suit l'API de **Zod 4**, la version utilisée par Astro 7. Pour que l
 - `builder` pilote Astro via son **API JavaScript** (`build`, `dev`) avec la racine sur le thème, la sortie vers `mon-site/dist/` et le chemin du site passé en configuration.
 - Les médias de `mon-site/media/` sont exposés au thème et optimisés par le pipeline d'images d'Astro quand c'est possible.
 
-> ⚠️ Vérifier ces API dans la documentation Astro à jour avant d'implémenter (Content Layer, loaders, API JavaScript). Si l'approche ne tient pas, proposer un ADR alternatif plutôt que de contourner.
+> ⚠️ Vérifié en novembre 2026 (Astro 7.4) : l'API JavaScript existe mais est **expérimentale**, et le chargeur `glob()` lit un dossier absolu n'importe où sur le disque. Plusieurs points restent à prouver (thème dans `node_modules`, Tailwind, images, rechargement en dev) : la manière exacte de piloter Astro est tranchée par le prototype de la tâche 1.0 et l'**ADR 0010**.
 
 ## API HTTP du serveur local (phase 2)
 

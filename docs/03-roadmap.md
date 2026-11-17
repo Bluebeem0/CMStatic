@@ -36,6 +36,8 @@ Sept phases, sans dates : on passe à la suivante quand le **critère de sortie*
 
 **Objectif** : `pnpm cmstatic build examples/demo-site` produit un site statique valide, avec des erreurs de contenu claires.
 
+- [ ] **1.0 Prototype d'intégration Astro** : prototype jetable qui vérifie les critères de l'ADR 0010 (conception A, puis B si besoin).
+  - *Acceptation* : ADR 0010 passé à « Accepté » avec la conception retenue et les résultats de chaque critère ; prototype supprimé.
 - [ ] **1.1 `core` — schémas** : `defineTheme`, `collection`, `singleton`, helpers `fields.*` (voir architecture) qui produisent un schéma Zod + des métadonnées d'interface sérialisables en JSON.
   - *Acceptation* : tests unitaires de chaque helper (valeur valide, valeur invalide, valeur par défaut) ; la sérialisation JSON des métadonnées est testée par snapshot.
 - [ ] **1.2 `core` — configuration du site** : lecture et validation de `cmstatic.config.yaml`.
@@ -45,7 +47,7 @@ Sept phases, sans dates : on passe à la suivante quand le **critère de sortie*
 - [ ] **1.4 `core` — chargement du site** : fonction `loadSite(path)` qui renvoie config + thème + toutes les entrées validées + liste des erreurs.
 - [ ] **1.5 `themes/starter`** : thème Astro + Tailwind + composants shadcn/ui ; collections `pages`, `posts`, `projects`, singleton `settings` ; pages accueil, liste et détail d'articles, liste et détail de projets, page libre ; responsive, accessible (contrastes AA, navigation clavier), mode sombre.
   - *Acceptation* : le thème construit le site d'exemple ; Lighthouse ≥ 95 en performance et accessibilité sur la page d'accueil.
-- [ ] **1.6 `builder`** : `buildSite(sitePath)` et `previewSite(sitePath)` qui pilotent Astro avec le thème du site et ses contenus (voir « Intégration avec Astro »).
+- [ ] **1.6 `builder`** : `buildSite(sitePath)` et `previewSite(sitePath)` qui pilotent Astro avec le thème du site et ses contenus, selon la conception retenue dans l'ADR 0010.
   - *Acceptation* : `dist/` contient `index.html` et une page par entrée publiée ; les brouillons (`draft: true`) sont exclus.
 - [ ] **1.7 `apps/cli`** : commandes `cmstatic init <dossier> [--theme]` (crée un site avec contenu d'exemple, `git init` et premier commit ; accepter l'ADR 0008 avant), `cmstatic build [dossier]`, `cmstatic dev [dossier]` (aperçu seul pour l'instant) ; `--help` clair ; codes de sortie corrects.
 - [ ] **1.8 `examples/demo-site` + test de bout en bout** : site d'exemple versionné ; un test Vitest enchaîne `init` → `build` dans un dossier temporaire et vérifie le HTML produit.
