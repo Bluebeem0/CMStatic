@@ -1,0 +1,9 @@
+{
+  // Type-checks the few TypeScript files at the repository root (tool
+  // configs). Each package has its own tsconfig.json.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["*.ts"]
+}
