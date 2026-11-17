@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest an idea or an improvement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        CMStatic follows a phased [roadmap](https://github.com/Bluebeem0/CMStatic/blob/main/docs/03-roadmap.md). Ideas outside the current phase are welcome and may be noted for later.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Who is it for (writer, theme author, plugin developer, administrator) and what is hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
