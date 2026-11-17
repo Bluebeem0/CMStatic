@@ -1,0 +1,7 @@
+# Issues must use one of the templates; security reports go through the
+# private advisory form instead of a public issue.
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/Bluebeem0/CMStatic/security/advisories/new
+    about: Please report security problems privately, not in a public issue.
