@@ -42,8 +42,8 @@ Elles existent à partir de la fin de la phase 0, sauf `pnpm cmstatic` qui arriv
 | --- | --- |
 | `pnpm install` | Installe toutes les dépendances du monorepo |
 | `pnpm typecheck` | Vérifie les types de tous les paquets |
-| `pnpm lint` | Biome : lint + format (vérification) |
-| `pnpm format` | Biome : reformate le code |
+| `pnpm lint` | Biome : lint + format (vérification, Markdown exclu) |
+| `pnpm format` | Biome : reformate le code, trie les imports et applique les corrections sûres |
 | `pnpm test` | Vitest sur tous les paquets |
 | `pnpm build` | Construit tous les paquets |
 | `pnpm cmstatic <cmd>` | Lance la CLI locale (`init`, `dev`, `build`, `deploy`) |

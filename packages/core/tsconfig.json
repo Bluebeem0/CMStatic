@@ -1,0 +1,9 @@
+{
+  // Used by the editor and "pnpm typecheck": covers sources and tests.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
