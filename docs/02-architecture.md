@@ -247,7 +247,7 @@ Points d'accroche prévus : `config:loaded`, `content:beforeSave`, `content:afte
 | Domaine | Choix | Remarque |
 | --- | --- | --- |
 | Langage | TypeScript 6 strict, ESM (TypeScript 7 n'a pas encore d'API, dont les outils Astro ont besoin) | Node ≥ 22.22 (minimum exigé par Astro 7.4) ; Node 24 LTS en développement ; CI sur 22 et 24 |
-| Monorepo | pnpm workspaces | ADR 0003 |
+| Monorepo | pnpm 11 workspaces, installé par Corepack | ADR 0003 ; passer à pnpm 12 quand Dependabot saura lire son lockfile |
 | Lint / format | Biome | Un seul outil, ADR 0009 |
 | Tests | Vitest ; Playwright pour l'interface (phase 2) | ADR 0009 |
 | Versions | Changesets + Conventional Commits | |

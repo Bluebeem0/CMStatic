@@ -18,7 +18,7 @@ Sept phases, sans dates : on passe à la suivante quand le **critère de sortie*
 
 **Objectif** : un dépôt public propre, outillé, où chaque push est vérifié.
 
-- [ ] **0.1 Monorepo** — `package.json` racine (`private: true`, `packageManager: pnpm@…`), `pnpm-workspace.yaml` (`packages/*`, `apps/*`, `themes/*`, `plugins/*`, `examples/*`), `tsconfig.base.json` strict, `.nvmrc` (24), `engines.node` `>=22.22.0`, `.editorconfig`, `.gitignore`.
+- [x] **0.1 Monorepo** — `package.json` racine (`private: true`, `packageManager: pnpm@…`), `pnpm-workspace.yaml` (`packages/*`, `apps/*`, `themes/*`, `plugins/*`, `examples/*`), `tsconfig.base.json` strict, `.nvmrc` (24), `engines.node` `>=22.22.0`, `.editorconfig`, `.gitignore`.
   - *Acceptation* : `pnpm install` fonctionne sur un clone neuf.
 - [ ] **0.2 Outillage** — Biome (lint + format), Vitest configuré pour tout le workspace, scripts racine `typecheck`, `lint`, `format`, `test`, `build`.
   - *Acceptation* : les cinq scripts tournent sans erreur (avec un test factice).
