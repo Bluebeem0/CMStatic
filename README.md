@@ -32,6 +32,10 @@ CMStatic fonctionne d'abord en local (dans le navigateur), puis en application d
 
 Les instructions d'installation arriveront avec la première version (fin de la phase 1).
 
+## Contribuer
+
+Les contributions sont les bienvenues : voir [CONTRIBUTING.md](CONTRIBUTING.md) (en anglais) et le [code de conduite](CODE_OF_CONDUCT.md). Les failles de sécurité se signalent en privé, voir [SECURITY.md](SECURITY.md).
+
 ## Licence
 
 [MIT](LICENSE) © 2026 Fodié Diaouné
