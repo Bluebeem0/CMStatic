@@ -8,7 +8,7 @@ CMStatic est un CMS open source qui génère des sites statiques. Il combine une
 | --- | --- |
 | Nom | CMStatic (provisoire) |
 | Licence | MIT |
-| Forge | GitHub, compte `bluebeem` |
+| Forge | GitHub, [`Bluebeem0/CMStatic`](https://github.com/Bluebeem0/CMStatic) |
 | Mainteneur | Fodié Diaouné |
 | Cadre | Projet personnel open source, sans échéance |
 
