@@ -18,17 +18,17 @@ Sept phases, sans dates : on passe à la suivante quand le **critère de sortie*
 
 **Objectif** : un dépôt public propre, outillé, où chaque push est vérifié.
 
-- [ ] **0.1 Monorepo** — `package.json` racine (`private: true`, `packageManager: pnpm@…`), `pnpm-workspace.yaml` (`packages/*`, `apps/*`, `themes/*`, `plugins/*`, `examples/*`), `tsconfig.base.json` strict, `.nvmrc` (22), `.editorconfig`, `.gitignore`.
+- [ ] **0.1 Monorepo** — `package.json` racine (`private: true`, `packageManager: pnpm@…`), `pnpm-workspace.yaml` (`packages/*`, `apps/*`, `themes/*`, `plugins/*`, `examples/*`), `tsconfig.base.json` strict, `.nvmrc` (24), `engines.node` `>=22.22.0`, `.editorconfig`, `.gitignore`.
   - *Acceptation* : `pnpm install` fonctionne sur un clone neuf.
 - [ ] **0.2 Outillage** — Biome (lint + format), Vitest configuré pour tout le workspace, scripts racine `typecheck`, `lint`, `format`, `test`, `build`.
   - *Acceptation* : les cinq scripts tournent sans erreur (avec un test factice).
-- [ ] **0.3 CI** — GitHub Actions sur `push` et `pull_request` : install avec cache pnpm, `typecheck`, `lint`, `test`, `build` ; Node 22.
+- [ ] **0.3 CI** — GitHub Actions sur `push` et `pull_request` : install avec cache pnpm, `typecheck`, `lint`, `test`, `build`, `pnpm audit --audit-level=high` ; Node 22 et 24.
   - *Acceptation* : badge CI vert dans le README.
 - [ ] **0.4 Fichiers communautaires** — `LICENSE` (MIT, © 2026 Fodié Diaouné), `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` (Contributor Covenant), modèles d'issue (bug, fonctionnalité) et de pull request.
 - [ ] **0.5 Docs et ADR** — dossier `docs/` en place, ADR 0001 à 0009 présents, `docs/ideas.md` vide.
 - [ ] **0.6 Versions** — Changesets initialisé ; Dependabot configuré (npm + GitHub Actions).
 
-**Sortie** : version `0.0.1` taguée (aucun paquet publié sur npm).
+**Sortie** : tag Git annoté `v0.0.1` sur `main` (version du dépôt, distincte des versions de paquets gérées par Changesets ; aucun paquet publié sur npm).
 
 ---
 
@@ -47,7 +47,7 @@ Sept phases, sans dates : on passe à la suivante quand le **critère de sortie*
   - *Acceptation* : le thème construit le site d'exemple ; Lighthouse ≥ 95 en performance et accessibilité sur la page d'accueil.
 - [ ] **1.6 `builder`** : `buildSite(sitePath)` et `previewSite(sitePath)` qui pilotent Astro avec le thème du site et ses contenus (voir « Intégration avec Astro »).
   - *Acceptation* : `dist/` contient `index.html` et une page par entrée publiée ; les brouillons (`draft: true`) sont exclus.
-- [ ] **1.7 `apps/cli`** : commandes `cmstatic init <dossier> [--theme]` (crée un site avec contenu d'exemple et `git init`), `cmstatic build [dossier]`, `cmstatic dev [dossier]` (aperçu seul pour l'instant) ; `--help` clair ; codes de sortie corrects.
+- [ ] **1.7 `apps/cli`** : commandes `cmstatic init <dossier> [--theme]` (crée un site avec contenu d'exemple, `git init` et premier commit ; accepter l'ADR 0008 avant), `cmstatic build [dossier]`, `cmstatic dev [dossier]` (aperçu seul pour l'instant) ; `--help` clair ; codes de sortie corrects.
 - [ ] **1.8 `examples/demo-site` + test de bout en bout** : site d'exemple versionné ; un test Vitest enchaîne `init` → `build` dans un dossier temporaire et vérifie le HTML produit.
 
 **Sortie** : version `0.0.2`, CI verte, README avec une section « Essayer en local ».

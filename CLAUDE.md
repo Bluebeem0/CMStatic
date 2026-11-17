@@ -36,7 +36,7 @@ CMStatic est un CMS open source (MIT) qui génère des sites statiques avec Astr
 
 ## Commandes
 
-Elles existent à partir de la fin de la phase 0.
+Elles existent à partir de la fin de la phase 0, sauf `pnpm cmstatic` qui arrive avec la CLI en phase 1 (tâche 1.7).
 
 | Commande | Effet |
 | --- | --- |
@@ -50,7 +50,7 @@ Elles existent à partir de la fin de la phase 0.
 
 ## Règles de code
 
-- TypeScript `strict`, ESM uniquement, Node ≥ 22.
+- TypeScript `strict`, ESM uniquement, Node ≥ 22.22 (Node 24 en développement, voir `.nvmrc`).
 - Pas de `any`. Pas de `as` pour faire taire le compilateur ; si c'est nécessaire, commente pourquoi.
 - Toute donnée venant de l'extérieur (fichiers, requêtes HTTP, config, CLI) est validée avec **Zod** avant usage.
 - Exports nommés, fichiers en `kebab-case.ts`, tests à côté du code en `*.test.ts`.

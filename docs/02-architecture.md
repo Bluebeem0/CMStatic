@@ -35,7 +35,7 @@ Toute la logique vit dans un cœur partagé ; l'admin local, l'application de bu
 | --- | --- | --- | --- | --- |
 | `packages/core` | `@cmstatic/core` | Schémas, config du site, lecture/écriture des entrées, index, Git | — | 1 |
 | `packages/builder` | `@cmstatic/builder` | Lance Astro pour construire ou prévisualiser un site avec son thème | core | 1 |
-| `packages/server` | `@cmstatic/server` | API HTTP locale (Hono) qui expose le cœur à l'interface | core, builder, deploy | 2 |
+| `packages/server` | `@cmstatic/server` | API HTTP locale (Hono) qui expose le cœur à l'interface | core, builder ; deploy à partir de la phase 3 | 2 |
 | `packages/admin-ui` | `@cmstatic/admin-ui` | Interface React (Vite, shadcn/ui), servie par `server` | — (parle à l'API) | 2 |
 | `packages/plugin-api` | `@cmstatic/plugin-api` | Types et fonctions `definePlugin`, registre des points d'accroche | core | 3 |
 | `packages/deploy` | `@cmstatic/deploy` | Cibles de déploiement SFTP, S3, Pages | core | 3 |
@@ -241,7 +241,7 @@ Points d'accroche prévus : `config:loaded`, `content:beforeSave`, `content:afte
 
 | Domaine | Choix | Remarque |
 | --- | --- | --- |
-| Langage | TypeScript strict, ESM | Node ≥ 22 LTS |
+| Langage | TypeScript strict, ESM | Node ≥ 22.22 (minimum exigé par Astro 7.4) ; Node 24 LTS en développement ; CI sur 22 et 24 |
 | Monorepo | pnpm workspaces | ADR 0003 |
 | Lint / format | Biome | Un seul outil, ADR 0009 |
 | Tests | Vitest ; Playwright pour l'interface (phase 2) | ADR 0009 |
@@ -253,7 +253,7 @@ Points d'accroche prévus : `config:loaded`, `content:beforeSave`, `content:afte
 | Serveur local | Hono sur Node | Phase 2 |
 | Interface | React + Vite + Tailwind + shadcn/ui, TanStack Query, react-hook-form | Phase 2 |
 | Éditeur de texte riche | À décider par ADR en phase 2 (critère : aller-retour Markdown fiable) | |
-| Git | isomorphic-git | ADR 0008 (proposé) |
+| Git | isomorphic-git | ADR 0008 (proposé, à accepter dès la tâche 1.7 car `init` crée le dépôt) |
 | Déploiement | `ssh2-sftp-client`, `@aws-sdk/client-s3` (compatible S3 : Garage, MinIO…) | Phase 3 |
 | Bureau | Electron | ADR 0007 (proposé) |
 | i18n | Fichiers de traduction JSON, fr + en dès le départ | |
