@@ -1,0 +1,17 @@
+# Folders whose sub-folders are workspace packages (see docs/02-architecture.md).
+packages:
+  - packages/*
+  - apps/*
+  - themes/*
+  - plugins/*
+  - examples/*
+
+# Refuse to install with a Node version outside "engines" instead of only
+# warning: a wrong Node version gives confusing errors much later.
+engineStrict: true
+
+# Versions shared by several workspace packages are pinned here once, and
+# packages reference them with "catalog:" (see docs/05-conventions.md).
+# Root tooling (TypeScript, Biome, Vitest) is pinned in the root package.json
+# instead, because Dependabot mishandles "catalog:" in the root manifest.
+catalog: {}

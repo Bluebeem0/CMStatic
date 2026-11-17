@@ -28,7 +28,7 @@
 ## Versions
 
 - SemVer ; `0.x` tant que les API de thèmes et de plugins peuvent changer.
-- Les versions des dépendances partagées entre paquets (TypeScript, Zod, Astro…) sont fixées une seule fois dans le **catalogue pnpm** (`pnpm-workspace.yaml`) ; les paquets y font référence avec `catalog:`.
+- Les versions des dépendances partagées entre paquets (TypeScript, Zod, Astro…) sont fixées une seule fois dans le **catalogue pnpm** (`pnpm-workspace.yaml`) ; les paquets y font référence avec `catalog:`. Exception : les outils de la racine (TypeScript, Biome, Vitest…) sont fixés directement dans le `package.json` racine, car Dependabot gère mal `catalog:` à cet endroit.
 - Chaque changement d'un paquet publiable s'accompagne d'un changeset (`pnpm changeset`).
 
 ## Code
